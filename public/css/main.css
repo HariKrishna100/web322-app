@@ -1,0 +1,57 @@
+/**
+ * import google fonts EB Garamond, Roboto, Cookie, Lora
+ */
+@import url("https://fonts.googleapis.com/css2?family=Cookie&family=EB+Garamond&family=Lora&family=Roboto&display=swap");
+
+main {
+  padding: 5px;
+  padding-bottom: 70%;
+  margin-bottom: 100px;
+  margin-left: 70px;
+  margin-right: 70px;
+  max-width: 100%;
+  background-color: #eaeded;
+}
+
+body {
+  background-color: #e3e6e6;
+}
+
+.nav-menu {
+    background-color: #131921;
+    max-width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav, a{
+    color: #f1f1f2;
+    font-family: "Lora", "serif";
+    text-decoration: none;
+}
+
+#name {
+    color: rgb(255, 153, 0);
+    font-family: "Roboto", "sans-serif";
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.info-text1 {
+    width: 70%;
+    padding-left: 60px;
+    padding-right: 25px;
+}
+
+.info-text2 {
+    width: 30%;
+    padding-right: 60px;
+    padding-left: 25px;
+}
