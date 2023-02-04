@@ -36,6 +36,8 @@ nav, a{
 #name {
     color: rgb(255, 153, 0);
     font-family: "Roboto", "sans-serif";
+    font-size: 1.2em;
+    font-weight: 650;
 }
 
 .info {
@@ -54,4 +56,14 @@ nav, a{
     width: 30%;
     padding-right: 60px;
     padding-left: 25px;
+}
+
+p {
+    font-family: "EB Garamond", "Georgia";
+}
+
+h2 {
+    font-family: "cookie", "Franklin Gothic Medium";
+    font-size: 2em;
+    font-weight: 500;
 }

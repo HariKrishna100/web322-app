@@ -6,7 +6,7 @@
 * 
 *  Name: Harikrishna Paresh Patel Student ID: 150739217 Date: 02/03/2023
 *
-*  Cyclic Web App URL: ________________________________________________________
+*  Cyclic Web App URL: https://careful-deer-spacesuit.cyclic.app/
 *
 *  GitHub Repository URL: https://github.com/HariKrishna100/web322-app
 *
@@ -15,10 +15,11 @@
 
 const express = require("express");
 const app = express();
-const { initialize, getPublishedPosts, getAllPosts, getCategories } = require("./blog-service.js");
-var path = require("path");
-
 const HTTP_PORT = process.env.PORT || 8080
+
+const { initialize, getPublishedPosts, getAllPosts, getCategories } = require("./blog-service.js");
+
+var path = require("path");
 
 app.use(express.static("public"));
 
@@ -60,7 +61,7 @@ app.get("/categories", function(req,res){
 });
 
 app.use((req, res) => {
-    res.status(404).end('Page Not Found');
+    res.status('404').end('Page Not Found: Error 404');
 })
 
 initialize().then(() => {
