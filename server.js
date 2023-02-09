@@ -60,12 +60,16 @@ app.get("/categories", function(req,res){
     })
 });
 
+app.get("/posts/add", function(req, res){
+    res.sendFile(path.join(__dirname,"views", "addPost.html"));
+});
+
 app.use((req, res) => {
     res.status('404').end('Page Not Found: Error 404');
-})
+});
 
 initialize().then(() => {
     app.listen(HTTP_PORT, () => {
         console.log("Express http server listening on: " + HTTP_PORT);
     });
-})
+});
