@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Post</title>
+    <link rel="stylesheet" type="text/css" href="/css/post.css">
+</head>
+<body>
+    <form>
+        <h1>Add Post</h1>
+        <h3>Feature Image</h3>
+        <hr class="title">
+        <label for="photo"></label>
+        <input id="photo" name="photo" type="file"><br>
+        <h3>Post Content</h3>
+        <hr class="title">
+        <label for="title">Title:</label>
+        <input id="title" name="label" type="text"><br>
+        <label for="body">Body:</label>
+        <input id="body" name="body" type="text"><br>
+        <div class="submenu">
+            <div class = subcontent>
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                    <option value="technology">Technology</option>
+                </select>
+            </div>
+            <div class="subcontent">    
+                <label for="visibility">Visibility:</label>
+                <input id="visibility" name="visibility" type="radio" value="published">
+                <label for="published">Published</label>
+            </div>
+        </div>
+        <hr class="foothr">
+        <input type="submit" value="Add Post">
+    </form>
+    <hr class="lasthr">
+</body>
+</html>
