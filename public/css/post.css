@@ -133,8 +133,7 @@ submit {
     font-size: 1em;
   }
   submit {
-    height: 18px;
-    width: 75px;
+    width: fit-content;
   }
   .foothr2 {
     width: 99%;
