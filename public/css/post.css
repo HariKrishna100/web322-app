@@ -1,6 +1,6 @@
 form {
     padding-left: 30px;
-    padding-right: 30px;
+    padding-right: 31px;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
@@ -23,7 +23,7 @@ form, h3 {
 .foothr {
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 100%;
+    width: 99%;
 }
 
 .foothr2 {
@@ -73,7 +73,7 @@ input {
 
 .submit {
     width: 75px;
-    background-color: #397ed7;
+    background-color: #427bc5;
     color: white;
 }
 
@@ -87,7 +87,57 @@ input {
     width: 99%;
 }
 
+/**
+ * Also do something when you hover or focus on buttons
+ */
+input[type="submit"]:hover,
+input[type="submit"]:focus {
+  background-color: #1a73e8;
+}
+
 submit {
     height: 35px;
     width: 100px;
+}
+
+@media screen and (max-width: 858px) {
+  body {
+    padding: 0;
+  }
+  form {
+    grid-template-columns: 1fr 2fr;
+    padding-left: 4%;
+    padding-right: 5%;
+  }
+  form label {
+    font-size: 1em;
+  }
+  .foothr2 {
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  body {
+    padding: 0;
+  }
+  form {
+    grid-template-columns: 2fr 3fr;
+    grid-gap: 4px;
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+  form label {
+    font-size: 1.28em;
+  }
+  input {
+    font-size: 1em;
+  }
+  submit {
+    height: 18px;
+    width: 75px;
+  }
+  .foothr2 {
+    width: 99%;
+  }
 }
