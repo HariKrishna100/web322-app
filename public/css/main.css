@@ -15,6 +15,7 @@ main {
 
 body {
   background-color: #e3e6e6;
+  margin: 0;
 }
 
 .nav-menu {
@@ -44,6 +45,7 @@ nav, a{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    font-size: 1.2em;
 }
 
 .info-text1 {
@@ -68,7 +70,30 @@ h2 {
     font-weight: 500;
 }
 
-@media (max-width: 200px) {
-  body: 100%;
-  margin: 0;
+@media screen and (max-width: 840px) {
+    .info-text1 {
+        width: 70%;
+        padding-left: 2%;
+        padding-right: 25px;
+    }
+
+    .info-text2 {
+        width: 30%;
+        padding-right: 2%;
+        padding-left: 25px;
+    }
+}
+
+@media screen and (max-width: 760px) {
+    .info-text1 {
+        width: 70%;
+        padding-left: 2%;
+        padding-right: 25px;
+    }
+
+    .info-text2 {
+        width: 30%;
+        padding-right: 2%;
+        padding-left: 25px;
+    }
 }
