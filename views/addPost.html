@@ -18,7 +18,7 @@
         <label for="title">Title:</label>
         <input id="title" name="label" type="text"><br>
         <label for="body">Body:</label>
-        <input id="body" name="body" type="text"><br>
+        <textarea id="body" name="body" type="text" rows="10"></textarea>
         <div class="submenu">
             <div class = subcontent>
                 <label for="category">Category:</label>
@@ -29,8 +29,8 @@
             <div class="subcontent">    
                 <label for="visibility">Visibility:</label>
                 <div class="column">
-                    <input id="visibility" name="visibility" type="radio" value="published">
-                    <label for="published">Published</label>
+                    <input id="visibility" name="visibility" type="checkbox" value="published">
+                    <label class="text-space" for="published">Published</label>
                 </div>
             </div>
         </div>
@@ -39,6 +39,6 @@
             <input class="submit" type="submit" value="Add Post">
         </div>
     </form>
-    <hr class="lasthr">
+    <hr class="foothr2">
 </body>
 </html>

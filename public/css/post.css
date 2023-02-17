@@ -4,6 +4,9 @@ form {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
+    width: 75%;
+    margin-left: 10%;
+    margin-right: 10%;
 } 
 
 form, h3 {
@@ -13,15 +16,19 @@ form, h3 {
 .title {
     margin-top: 0;
     margin-bottom: 20px;
+    width: 100%;
+    line-height: 100%;
 }
 
 .foothr {
     margin-top: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
-.lasthr {
- margin-top: 10px;
+.foothr2 {
+    margin-top: 8px;
+    width: 82%;
 }
 
 input {
@@ -43,9 +50,25 @@ input {
     width:50%;
 }
 
+#body {
+    height: auto;
+    width: 99%;
+}
+
+#category {
+    width: 95%;
+    margin-top: 8px;
+    height: 23px;
+}
+
 .column {
     display: flex;
-    align-items: baseline;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.text-space {
+    padding-left: 10px;
 }
 
 .submit {
@@ -58,4 +81,13 @@ input {
     width: 100%;
     display: flex;
     flex-direction: row-reverse;
+}
+
+input {
+    width: 99%;
+}
+
+submit {
+    height: 35px;
+    width: 100px;
 }
