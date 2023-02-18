@@ -97,3 +97,40 @@ h2 {
         padding-left: 25px;
     }
 }
+
+@media screen and (max-width: 685px) {
+    .info {
+        display: flex;
+        flex-direction: column;
+        font-size: 1.2em;
+    }
+
+    .info-text1 {
+        width: 95%;
+    }
+
+    .info-text2 {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .info {
+        display: flex;
+        flex-direction: column;
+        font-size: 1.2em;
+    }
+
+    .info-text1 {
+        width: 95%;
+    }
+
+    .info-text2 {
+        width: 95%;
+    }
+
+    main {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
