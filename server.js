@@ -21,7 +21,19 @@ const { initialize, getPublishedPosts, getAllPosts, getCategories } = require(".
 
 var path = require("path");
 
+const multer = require("multer");
+const cloudinary = require('cloudinary').v2
+const streamifier = require('streamifier')
+const upload = multer(); 
+
 app.use(express.static("public"));
+
+cloudinary.config({
+    cloud_name: 'dsjmp50vm',
+    api_key: '871462464943897',
+    api_secret: 'HDD73Y4KdTMKxnupfUGtgxL2Ks0',
+    secure: true
+});
 
 // setup another route to listen on /about
 app.get("/", function(req,res){
@@ -62,6 +74,43 @@ app.get("/categories", function(req,res){
 
 app.get("/posts/add", function(req, res){
     res.sendFile(path.join(__dirname,"views", "addPost.html"));
+
+    if(req.file) {
+        let streamUpload = (req) => {
+            return new Promise((resolve, reject) => {
+                let stream = cloudinary.uploader.upload_stream(
+                    (error, result) => {
+                        if (result) {
+                            resolve(result);
+                        } else {
+                            reject(error);
+                        }
+                    }
+                );
+
+                streamifier.createReadStream(req.file.buffer).pipe(stream);
+            });
+        };
+
+        async function upload(req) {
+            let result = await streamUpload(req);
+            console.log(result);
+            return result;
+        }
+
+        upload(req).then((uploaded)=>{
+            processPost(uploaded.url);
+        });
+    }else{
+        processPost("");
+    }
+    
+    function processPost(imageUrl) {
+        req.body.featureImage = imageUrl;
+
+        // TODO: Process the req.body and add it as a new Blog Post before redirecting to /posts
+    } 
+
 });
 
 app.use((req, res) => {
