@@ -121,5 +121,4 @@ initialize().then(() => {
     app.listen(HTTP_PORT, () => {
         console.log("Express http server listening on: " + HTTP_PORT);
     });
-    app.get();
 });
