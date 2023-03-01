@@ -39,11 +39,13 @@ function getAllPosts() {
 function getPublishedPosts() {
     return new Promise((resolve, reject) => {
         var publishedPost = [];
+        
         posts.forEach(post => {
             if(post.published === true){
                 publishedPost.push(post);
             }
         });
+
         if(publishedPost.length === 0){
             reject("no results returned");
         }else {
@@ -65,10 +67,10 @@ function getPostsByCategory(category) {
     return new Promise((resolve, reject) => {
         const filteredPosts = posts.filter(post => post.category == category);
 
-        if (filteredPosts.length > 0) {
-            resolve(filteredPosts);
-        } else {
+        if (filteredPosts.length === 0) {
             reject("no results returned");
+        } else {
+            resolve(filteredPosts);
         }
     })
 }
@@ -77,10 +79,11 @@ function getPostsByMinDate(minDate) {
     return new Promise((resolve, reject) => {
         const filteredPosts = posts.filter(post => new Date(post.postDate) >= new Date(minDate));
 
-        if (filteredPosts.length > 0) {
-            resolve(filteredPosts);
-        } else {
+        if (filteredPosts.length === 0) {
             reject("no results returned");
+        } else {
+
+            resolve(filteredPosts);
         }
     })
 }
@@ -101,7 +104,7 @@ function getPostById(id) {
 
 function addPost(postData){
     return new Promise ((resolve, reject) => {
-        if(postData.published === undefined){
+        if(postData.published === undefined) {
             postData.published = false;
         } else {
             postData.published = true;

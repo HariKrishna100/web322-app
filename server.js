@@ -1,10 +1,10 @@
 /*********************************************************************************
-*  WEB322 – Assignment 02
+*  WEB322 – Assignment 03
 *  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part 
 *  of this assignment has been copied manually or electronically from any other source 
 *  (including 3rd party web sites) or distributed to other students.
 * 
-*  Name: Harikrishna Paresh Patel Student ID: 150739217 Date: 02/03/2023
+*  Name: Harikrishna Paresh Patel Student ID: 150739217 Date: 02/22/2023
 *
 *  Cyclic Web App URL: https://careful-deer-spacesuit.cyclic.app/
 *
@@ -14,19 +14,17 @@
 
 
 const express = require("express");
+const multer = require("multer");
+const cloudinary = require('cloudinary').v2
+const streamifier = require('streamifier')
+const path = require("path");
 const app = express();
+const upload = multer(); 
 const HTTP_PORT = process.env.PORT || 8080
 
 const { initialize, getAllPosts, getPublishedPosts, getCategories, 
         addPost, getPostById, getPostsByCategory, getPostsByMinDate 
 } = require("./blog-service.js");
-
-var path = require("path");
-
-const multer = require("multer");
-const cloudinary = require('cloudinary').v2
-const streamifier = require('streamifier')
-const upload = multer(); 
 
 app.use(express.static("public"));
 
@@ -38,30 +36,22 @@ cloudinary.config({
 });
 
 // setup another route to listen on /about
-app.get("/", function(req,res){
-    res.sendFile(path.join(__dirname,"views", "about.html"));
+app.get("/", function(req,res) {
+    res.redirect("/about");
 });
 
-app.get("/about", function(req,res){
+app.get("/about", function(req,res) {
     res.sendFile(path.join(__dirname,"views", "about.html"));
 });
 
 // setup another route to listen on /blog
-app.get("/blog", function(req,res){
+app.get("/blog", function(req,res) {
     getPublishedPosts().then((data) => {
         res.send(data);
     }).catch((err) => {
         res.send(err);
     })
 });
-
-app.get("/post/:value", (req, res)=>{
-    getPostById(req.params.value).then((data)=>{
-        res.send(data);
-    }).catch((err)=>{
-        res.send(err);
-    })
-})
 
 // setup another route to listen on /blog
 app.get("/posts", function(req,res){
@@ -72,8 +62,8 @@ app.get("/posts", function(req,res){
         }).catch((err)=>{
             res.send(err);
         });
-    } else if (req.query.minDateStr) {
-        getPostsByMinDate(req.query.minDateStr)
+    } else if (req.query.minDate) {
+        getPostsByMinDate(req.query.minDate)
         .then((data)=>{
             res.send(data);
         }).catch((err)=>{
@@ -86,15 +76,6 @@ app.get("/posts", function(req,res){
             res.send(err);
         });
     }
-});
-
-// setup another route to listen on /categories
-app.get("/categories", function(req,res){
-    getCategories().then((data) => {
-        res.send(data);
-    }).catch((err) => {
-        res.send(err);
-    })
 });
 
 app.get("/posts/add", function(req, res){
@@ -110,8 +91,7 @@ app.post("/posts/add", upload.single("featureImage"), (req, res) => {
                 } else {
                     reject(error);
                 }
-            }
-        );
+            });
         streamifier.createReadStream(req.file.buffer).pipe(stream);
         });
     };
@@ -137,6 +117,23 @@ app.post("/posts/add", upload.single("featureImage"), (req, res) => {
         }
         res.redirect("/posts");
     }).catch((err)=>{
+        res.send(err);
+    });
+});
+
+app.get("/post/:value", (req, res)=>{
+    getPostById(req.params.value).then((data)=>{
+        res.send(data);
+    }).catch((err)=>{
+        res.send(err);
+    })
+})
+
+// setup another route to listen on /categories
+app.get("/categories", function(req,res){
+    getCategories().then((data) => {
+        res.send(data);
+    }).catch((err) => {
         res.send(err);
     })
 });
