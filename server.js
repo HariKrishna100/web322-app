@@ -55,18 +55,25 @@ app.get("/blog", function(req,res){
     })
 });
 
+app.get("/post/:value", (req, res)=>{
+    getPostById(req.params.value).then((data)=>{
+        res.send(data);
+    }).catch((err)=>{
+        res.send(err);
+    })
+})
 
 // setup another route to listen on /blog
 app.get("/posts", function(req,res){
     if (req.query.category) {
-        getPostByCategory(req.query.category)
+        getPostsByCategory(req.query.category)
         .then((data)=>{
             res.send(data);
         }).catch((err)=>{
             res.send(err);
         });
-    } else if (req.query.minDate) {
-        getPostsByMinDate(req.query.minDate)
+    } else if (req.query.minDateStr) {
+        getPostsByMinDate(req.query.minDateStr)
         .then((data)=>{
             res.send(data);
         }).catch((err)=>{
@@ -92,6 +99,9 @@ app.get("/categories", function(req,res){
 
 app.get("/posts/add", function(req, res){
     res.sendFile(path.join(__dirname,"views", "addPost.html"));
+})
+
+app.post("/posts/add", upload.single("featureImage"), (req, res) => {
     let streamUpload = (req) => {
         return new Promise((resolve, reject) => {
             let stream = cloudinary.uploader.upload_stream((error, result) => {
@@ -106,13 +116,12 @@ app.get("/posts/add", function(req, res){
         });
     };
 
-   async function upload(req) {
+    async function upload(req) {
         let result = await streamUpload(req);
-        console.log(result);
         return result;
     }
 
-    upload(req).then((uploaded)=>{
+    upload(req).then((uploaded) => {
         req.body.featureImage = uploaded.url;
         let postObj = {};
 
@@ -123,13 +132,13 @@ app.get("/posts/add", function(req, res){
         postObj.featureImage = req.body.featureImage;
         postObj.published = req.body.published;
 
-        blogService.addPost(req.body)
-        .then(()=>{
-            res.redirect("/posts");
-        }).catch((data)=>{
-            res.send(data);
-        });
-    });
+        if(postObj.title){
+            addPost(postObj);
+        }
+        res.redirect("/posts");
+    }).catch((err)=>{
+        res.send(err);
+    })
 });
 
 app.use((req, res) => {

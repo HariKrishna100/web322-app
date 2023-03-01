@@ -107,8 +107,8 @@ function addPost(postData){
             postData.published = true;
         }
 
-        postData.id = post.length + 1;
-        post.push(postData);
+        postData.id = posts.length + 1;
+        posts.push(postData);
         resolve(postData);
     })
 }
