@@ -17,6 +17,7 @@ const express = require("express");
 const multer = require("multer");
 const cloudinary = require('cloudinary').v2
 const streamifier = require('streamifier')
+const exphbs = require('express-handlebars')
 const path = require("path");
 const app = express();
 const upload = multer(); 
@@ -35,13 +36,53 @@ cloudinary.config({
     secure: true
 });
 
+app.use(function(req,res,next){
+    let route = req.path.substring(1);
+    app.locals.activeRoute = "/" + (isNaN(route.split('/')[1]) ? route.replace(/\/(?!.*)/, "") : route.replace(/\/(.*)/, ""));
+    app.locals.viewingCategory = req.query.category;
+    next();
+});
+
+app.engine(
+  ".hbs",
+  exphbs.engine({
+    extname: ".hbs",
+    layoutsDir: path.join(__dirname, "/views/layouts"),
+    helpers: {
+      navLink: function (url, options) {
+        return (
+          "<li" +
+          (url == app.locals.activeRoute ? ' class="active" ' : "") +
+          '><a href="' +
+          url +
+          '">' +
+          options.fn(this) +
+          "</a></li>"
+        );
+      },
+
+      equal: function (lvalue, rvalue, options) {
+        if (arguments.length < 3)
+          throw new Error("Handlebars Helper equal needs 2 parameters");
+        if (lvalue != rvalue) {
+          return options.inverse(this);
+        } else {
+          return options.fn(this);
+        }
+      },
+    },
+  })
+);
+
+app.set('view engine', '.hbs');
+
 // setup another route to listen on /about
 app.get("/", function(req,res) {
-    res.redirect("/about");
+    res.redirect("about");
 });
 
 app.get("/about", function(req,res) {
-    res.sendFile(path.join(__dirname,"views", "about.html"));
+    res.render("about");
 });
 
 // setup another route to listen on /blog
@@ -79,7 +120,11 @@ app.get("/posts", function(req,res){
 });
 
 app.get("/posts/add", function(req, res){
-    res.sendFile(path.join(__dirname,"views", "addPost.html"));
+    getCategories().then((categories) => {
+        res.render("addPost", {categories: categories});
+    }).catch(() => {
+        res.render("addPost", { categories: [] });
+    });
 })
 
 app.post("/posts/add", upload.single("featureImage"), (req, res) => {
