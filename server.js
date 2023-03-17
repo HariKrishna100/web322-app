@@ -96,27 +96,16 @@ app.get("/blog", function(req,res) {
 
 // setup another route to listen on /blog
 app.get("/posts", function(req,res){
-    if (req.query.category) {
-        getPostsByCategory(req.query.category)
-        .then((data)=>{
-            res.send(data);
-        }).catch((err)=>{
-            res.send(err);
-        });
-    } else if (req.query.minDate) {
-        getPostsByMinDate(req.query.minDate)
-        .then((data)=>{
-            res.send(data);
-        }).catch((err)=>{
-            res.send(err);
-        });
-    } else {
-        getAllPosts().then((data) => {
-            res.send(data);
-        }).catch((err) => {
-            res.send(err);
-        });
-    }
+    getPublishedPosts(req.query.category)
+    .then((data) => {
+        if (data.length > 0){
+            res.render("posts", {posts: data});
+        }else {
+            res.render("posts", {message: "no results"});
+        }
+    }).catch(() => {
+        res.render("posts", {message: "no results"});
+    });
 });
 
 app.get("/posts/add", function(req, res){
