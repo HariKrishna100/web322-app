@@ -1,0 +1,39 @@
+<div class="row"></div>
+    <form method="post" action="/posts/add" enctype="multipart/form-data">
+        <h1>Add Post</h1>
+        <h3>Feature Image</h3>
+        <hr class="title">
+        <label for="featureImage"></label>
+        <input id="featureImage" name="featureImage" type="file"><br>
+        <h3>Post Content</h3>
+        <hr class="title">
+        <label for="title"><strong>Title:</strong></label>
+        <input id="title" class="contB-pad" name="title" type="text"><br>
+        <label for="body"><strong>Body:</strong></label>
+        <textarea id="body" class="contB-pad" name="body" type="text" rows="20"></textarea><br>
+        <div class="submenu">
+            <div class = subcontent>
+                <label for="category"><strong>Category:</strong></label>
+                <select id="category" name="category">
+                    <option value="1"><strong>Technology</strong></option>
+                    <option value="2"><strong>Gaming</strong></option>
+                    <option value="3"><strong>Fashion</strong></option>
+                    <option value="4"><strong>Education</strong></option>
+                    <option value="5"><strong>Wellness</strong></option>
+                </select>
+            </div>
+            <div class="subcontent">    
+                <label for="category"><strong>Visibility:</strong></label>
+                <div class="column">
+                    <input id="published" name="published" type="checkbox">
+                    <label for="published" class="text-space">Published</label>
+                </div>
+            </div>
+        </div>
+        <hr class="foothr">
+        <div class="right">
+            <input class="submit" type="submit" value="Add Post">
+        </div>
+    </form>
+    <hr class="foothr2">
+</div>

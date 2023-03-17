@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-s
+    cale=1">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <title>Harikrishna's Blog</title>
+  </head>
+  <body>
+      <nav class="nav-menu">
+        <span id="name">WEB322 - Harikrishna Patel</span>
+        <a class="active">{{#navLink "/blog"}}Blog{{/navLink}}</a>        
+        <a class="active">{{#navLink "/about"}}About{{/navLink}}</a>        
+        <a class="active">{{#navLink "/posts"}}Posts{{/navLink}}</a>      
+        <a class="active">{{#navLink "/categories"}}Categories{{/navLink}}</a>    
+        <a class="active">{{#navLink "/posts/add"}}Add Post{{/navLink}}</a> 
+      </nav>
+    <main>
+      {{{body}}}
+    </main>
+  </body>
+</html>
