@@ -1,0 +1,26 @@
+{{#unless categories}}
+<div class="col-md-12 text-center">
+    <strong>{{message}}</strong>
+</div>
+{{/unless}}
+<h2>Categories</h2>
+<hr />
+
+<div class="table-responsive">
+<table class="table table-light table-striped table-hover table-borderless">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Category ID</th>
+            <th scope="col">Category Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each categories}}
+        <tr>
+            <td><a href="/posts?category={{id}}">{{id}}</a></td>
+            <td><a href="/posts?category={{category}}">{{category}}</a></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</div>

@@ -116,7 +116,26 @@ function addPost(postData){
     })
 }
 
+function  getPublishedPostsByCategory(category){
+    return new Promise((resolve, reject) => {
+        var publishedPost = [];
+        
+        posts.forEach(post => {
+            if(post.published === true && post.category == "category"){
+                publishedPost.push(post);
+            }
+        });npm 
+
+        if(publishedPost.length === 0){
+            reject("no results returned");
+        }else {
+            resolve(publishedPost);
+        }
+    });
+}
+
 module.exports = { 
     initialize, getAllPosts, getPublishedPosts, getCategories, 
-    addPost, getPostById, getPostsByCategory, getPostsByMinDate 
+    addPost, getPostById, getPostsByCategory, getPostsByMinDate,
+    getPublishedPostsByCategory
 };
