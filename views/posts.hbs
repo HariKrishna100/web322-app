@@ -1,36 +1,33 @@
-<div class="table-responsive">
-    <div class="col-md-12">
-        <h2>Posts</h2>
-        <hr />
+{{#unless posts}}
+<div class="col-md-12 text-center">
+    <strong>{{message}}</strong>
+</div>
+{{/unless}}
 
-        <table class="table table-light table-striped table-hover table-borderless">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Post ID</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Post Date</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Published</th>
-                </tr>
-            </thead>
-            {{#if posts}}
-            <tbody>
-                {{#each posts}}
-                <tr>
-                    <td>{{id}}</td>
-                    <td>{{title}}</td>
-                    <td>{{postDate}}</td>
-                    <td><a href="posts?category={{category}}">{{category}}</a></td>
-                    <td>{{published}}</td>
-                    <td><a href="posts/delete/{{id}}" class="btn btn-danger">Remove</a></td>
-                </tr>
-                {{/each}}
-            </tbody>
-            {{else}}
-            <div class="col-md-12 text-center">
-                <strong>{{message}}</strong>
-            </div>
-            {{/if}}
-        </table>
-    </div>
+<h2>Posts</h2>
+<hr />
+
+<div class="table-responsive">
+<table class="table table-light table-striped table-hover table-borderless">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Post ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Post Date</th>
+            <th scope="col">Category</th>
+            <th scope="col">Published</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each posts}}
+        <tr>
+            <td>{{id}}</td>
+            <td>{{title}}</td>
+            <td>{{postDate}}</td>
+            <td><a href="posts?category={{category}}">{{category}}</a></td>
+            <td>{{published}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
 </div>
