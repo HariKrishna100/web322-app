@@ -124,7 +124,7 @@ function  getPublishedPostsByCategory(category){
             if(post.published === true && post.category == "category"){
                 publishedPost.push(post);
             }
-        });npm 
+        });
 
         if(publishedPost.length === 0){
             reject("no results returned");
