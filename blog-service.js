@@ -1,141 +1,172 @@
-const fs = require("fs"); 
-const { resolve } = require("path");
-const path = require("path");
+const Sequelize = require("sequelize");
 
-var posts = [];
-var categories = [];
+var sequelize = new Sequelize(
+  "qkfjqwjy",
+  "qkfjqwjy",
+  "w6YhcaLJAXNmfjo3PloGCp1VEN-k-bif",
+  {
+    host: "ruby.db.elephantsql.com",
+    dialect: "postgres",
+    port: 5432,
+    dialectOptions: {
+      ssl: { rejectUnauthorized: false },
+    },
+    query: { raw: true },
+  }
+);
 
-function initialize(){
-    return new Promise((resolve, reject) => {
-        fs.readFile(path.join(__dirname, "data", "posts.json"), "utf-8", (err, data) => {
-            if(err){
-                reject("unable to read file");
-            }
+var Post = sequelize.define("Post", {
+  body: Sequelize.TEXT,
+  title: Sequelize.STRING,
+  postDate: Sequelize.DATE,
+  featureImage: Sequelize.STRING,
+  published: Sequelize.BOOLEAN,
+});
 
-            posts = JSON.parse(data);
+var Category = sequelize.define("Category", {
+  category: Sequelize.STRING,
+});
 
-            fs.readFile(path.join(__dirname, "data", "categories.json"), "utf-8", (err, data) => {
-                if(err){
-                    reject("unable to read file");
-                }
+Post.belongsTo(Category, { foreignKey: "category" });
 
-                categories = JSON.parse(data);
-
-                resolve();
-            });
-        });
+function initialize() {
+  return new Promise((resolve, reject) => {
+    sequelize.sync()
+    .then(() => {
+        resolve()
+    }).catch(()=>{
+        reject("unable to sync the database");
     })
+  });
 }
 
 function getAllPosts() {
-    return new Promise((resolve, reject) => {
-        if(posts.length === 0){
-            reject("no results returned");
-        }
-        resolve(posts);
-    });
-}
-
-function getPublishedPosts() {
-    return new Promise((resolve, reject) => {
-        var publishedPost = [];
-        
-        posts.forEach(post => {
-            if(post.published === true){
-                publishedPost.push(post);
-            }
-        });
-
-        if(publishedPost.length === 0){
-            reject("no results returned");
-        }else {
-            resolve(publishedPost);
-        }
-    });
-}
-
-function getCategories(){
-    return new Promise ((resolve, reject) => {
-        if(categories.length === 0){
-            reject("no results returned");
-        }
-        resolve(categories);
-    });
+  return new Promise((resolve, reject) => {
+    Post.findAll({
+        where: {
+            published: true,
+        },
+    }).then((data) => {
+        resolve(data);
+    }).catch(() => {
+        reject("no results returned");
+    })
+  });
 }
 
 function getPostsByCategory(category) {
-    return new Promise((resolve, reject) => {
-        const filteredPosts = posts.filter(post => post.category == category);
-
-        if (filteredPosts.length === 0) {
-            reject("no results returned");
-        } else {
-            resolve(filteredPosts);
-        }
+  return new Promise((resolve, reject) => {
+    Post.findAll({
+        where: {
+            category: category,
+            published: true,
+        },
+    }).then((data) => {
+        resolve(data);
+    }).catch(() => {
+        reject("no results returned");
     })
+  });
 }
 
 function getPostsByMinDate(minDate) {
-    return new Promise((resolve, reject) => {
-        const filteredPosts = posts.filter(post => new Date(post.postDate) >= new Date(minDate));
-
-        if (filteredPosts.length === 0) {
-            reject("no results returned");
-        } else {
-
-            resolve(filteredPosts);
-        }
+  return new Promise((resolve, reject) => {
+    Post.findAll({
+        where: {
+            postDate: {
+                [gte]: new Date(minDateStr),
+            },
+        },
+    }).then((data) => {
+        resolve(data);
+    }).catch(() => {
+        reject("no results returned");
     })
+  });
 }
 
 function getPostById(id) {
-    return new Promise((resolve, reject) => {
-        const filteredPosts = posts.filter(post => post.id == id);
-        const uniquePost = filteredPosts[0];
-
-        if (uniquePost) {
-            resolve(uniquePost);
-        }
-        else {
-            reject("no result returned");
-        }
+  return new Promise((resolve, reject) => {
+    Post.findAll({
+        where: {
+            id: id,
+        },
+    }).then((data) => {
+        resolve(data[0]);
+    }).catch(() => {
+        reject("no results returned");
     })
+  });
 }
 
-function addPost(postData){
-    return new Promise ((resolve, reject) => {
-        if(postData.published === undefined) {
-            postData.published = false;
-        } else {
-            postData.published = true;
-        }
+function addPost(postData) {
+  return new Promise((resolve, reject) => {
+    postData.published = (postData.published) ? true : false;
 
-        postData.id = posts.length + 1;
-        posts.push(postData);
-        resolve(postData);
+    for (const key in postData) {
+        if (postData[i] === "") {
+            postData[i] = null;
+        }
+    }
+
+    postData.postDate = new Date();
+
+    Post.create(postData).then(() => {
+        resolve(data);
+    }).catch(() => {
+        reject("unable to create post");
     })
+  });
 }
 
-function  getPublishedPostsByCategory(category){
-    return new Promise((resolve, reject) => {
-        var publishedPost = [];
-        
-        posts.forEach(post => {
-            if(post.published === true && post.category == "category"){
-                publishedPost.push(post);
-            }
-        });
-
-        if(publishedPost.length === 0){
-            reject("no results returned");
-        }else {
-            resolve(publishedPost);
-        }
-    });
+function getPublishedPosts() {
+  return new Promise((resolve, reject) => {
+    Post.findAll({
+        where: {
+            published: true,
+        }, 
+    }).then((data) => {
+        resolve(data)
+    }).catch(() => {
+        reject("no results returned");
+    })
+  });
 }
 
-module.exports = { 
-    initialize, getAllPosts, getPublishedPosts, getCategories, 
-    addPost, getPostById, getPostsByCategory, getPostsByMinDate,
-    getPublishedPostsByCategory
+function getPublishedPostsByCategory(category) {
+  return new Promise((resolve, reject) => {
+    Post.findAll({
+        where: {
+            category: category,
+            published: true,
+        },
+    }).then((data) => {
+        resolve(data);
+    }).catch(() => {
+        reject("no results returned");
+    })
+  });
+}
+
+function getCategories() {
+  return new Promise((resolve, reject) => {
+    Category.findAll().then((data) => {
+        resolve(data)
+    }).catch(() => {
+        reject("no results returned");
+    })
+  });
+}
+
+
+module.exports = {
+  initialize,
+  getAllPosts,
+  getPublishedPosts,
+  getCategories,
+  addPost,
+  getPostById,
+  getPostsByCategory,
+  getPostsByMinDate,
+  getPublishedPostsByCategory,
 };

@@ -85,6 +85,13 @@ app.engine(
       safeHTML: function (context) {
         return stripJs(context);
       },
+
+      formatDate: function (dateObj) {
+        let year = dateObj.getFullYear();
+        let month = (dateObj.getMonth() + 1).toString();
+        let day = dateObj.getDate().toString();
+        return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+      },
     },
   })
 );
@@ -297,10 +304,8 @@ app.use((req, res) => {
   res.status(404).render("404",{layout:"main.hbs"})
 });
 
-blogData.initialize().then(() => {
+initialize().then(() => {
   app.listen(HTTP_PORT, () => {
     console.log("Express http server listening on: " + HTTP_PORT);
-  }).catch((err) => {
-    console.log(err);
   })
 });
