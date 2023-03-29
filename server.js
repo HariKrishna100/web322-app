@@ -134,44 +134,45 @@ app.get("/posts/add", function (req, res) {
 });
 
 app.post("/posts/add", upload.single("featureImage"), (req, res) => {
-  let streamUpload = (req) => {
-    return new Promise((resolve, reject) => {
-      let stream = cloudinary.uploader.upload_stream((error, result) => {
-        if (result) {
-          resolve(result);
-        } else {
-          reject(error);
+  if(req.file){
+        let streamUpload = (req) => {
+            return new Promise((resolve, reject) => {
+                let stream = cloudinary.uploader.upload_stream(
+                    (error, result) => {
+                        if (result) {
+                            resolve(result);
+                        } else {
+                            reject(error);
+                        }
+                    }
+                );
+    
+                streamifier.createReadStream(req.file.buffer).pipe(stream);
+            });
+        };
+    
+        async function upload(req) {
+            let result = await streamUpload(req);
+            console.log(result);
+            return result;
         }
-      });
-      streamifier.createReadStream(req.file.buffer).pipe(stream);
-    });
-  };
+    
+        upload(req).then((uploaded)=>{
+            processPost(uploaded.url);
+        });
+    }else{
+        processPost("");
+    }
 
-  async function upload(req) {
-    let result = await streamUpload(req);
-    return result;
-  }
+    function processPost(imageUrl){
+        req.body.featureImage = imageUrl;
 
-  upload(req)
-    .then((uploaded) => {
-      req.body.featureImage = uploaded.url;
-      let postObj = {};
-
-      postObj.body = req.body.body;
-      postObj.title = req.body.title;
-      postObj.postDate = new Date().toISOString().slice(0, 10);
-      postObj.category = req.body.category;
-      postObj.featureImage = req.body.featureImage;
-      postObj.published = req.body.published;
-
-      if (postObj.title) {
-        addPost(postObj);
-      }
-      res.redirect("/posts");
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+        blogData.addPost(req.body).then(post=>{
+            res.redirect("/posts");
+        }).catch(err=>{
+            res.status(500).send(err);
+        })
+    }   
 });
 
 app.get("/post/:value", (req, res) => {
@@ -296,8 +297,10 @@ app.use((req, res) => {
   res.status(404).render("404",{layout:"main.hbs"})
 });
 
-initialize().then(() => {
+blogData.initialize().then(() => {
   app.listen(HTTP_PORT, () => {
     console.log("Express http server listening on: " + HTTP_PORT);
-  });
+  }).catch((err) => {
+    console.log(err);
+  })
 });

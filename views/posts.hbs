@@ -1,33 +1,38 @@
-{{#unless posts}}
-<div class="col-md-12 text-center">
-    <strong>{{message}}</strong>
+<div class="row">
+    <div class="col-md-12">
+        <h2>Posts</h2>
+        <hr />
+
+        <div class="table-responsive">
+            <table class="table ">
+                <thead>
+                    <tr>
+                        <th>Post&nbsp;ID</th>
+                        <th>Title</th>
+                        <th>Post&nbsp;Date</th>
+                        <th>Category</th>
+                        <th>Published</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each posts}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{title}}</td>
+                        <td>{{postDate}}</td>
+                        <td><a href="/posts?category={{category}}">{{category}}</a></td>
+                        <td>{{published}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{#unless posts}}
+    <div class="col-md-12 text-center">
+        <strong>{{message}}</strong>
+    </div>
+    {{/unless}}
+
 </div>
-{{/unless}}
-
-<h2>Posts</h2>
-<hr />
-
-<div class="table-responsive">
-<table class="table table-light table-striped table-hover table-borderless">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">Post ID</th>
-            <th scope="col">Title</th>
-            <th scope="col">Post Date</th>
-            <th scope="col">Category</th>
-            <th scope="col">Published</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each posts}}
-        <tr>
-            <td>{{id}}</td>
-            <td>{{title}}</td>
-            <td>{{postDate}}</td>
-            <td><a href="posts?category={{category}}">{{category}}</a></td>
-            <td>{{published}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
 </div>

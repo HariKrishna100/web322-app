@@ -3,62 +3,13 @@
  */
 @import url("https://fonts.googleapis.com/css2?family=Cookie&family=EB+Garamond&family=Lora&family=Roboto&display=swap");
 
-main {
-  padding: 5px;
-  padding-bottom: 70%;
-  margin-bottom: 100px;
-  margin-left: 70px;
-  margin-right: 70px;
-  max-width: 100%;
-  background-color: #eaeded;
-}
-
-body {
-  background-color: #e3e6e6;
-  margin: 0;
-
-}
-
-.nav-menu {
-    background-color: #131921;
-    max-width: 100%;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    text-align: center;
-    display: flex;
-    justify-content: space-around;
-}
-
 nav, a{
-    color: #f1f1f2;
     font-family: "Lora", "serif";
-    text-decoration: none;
 }
 
 #name {
     color: rgb(255, 153, 0);
     font-family: "Roboto", "sans-serif";
-    font-size: 1.2em;
-    font-weight: 650;
-}
-
-.info {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-size: 1.2em;
-}
-
-.info-text1 {
-    width: 70%;
-    padding-left: 60px;
-    padding-right: 25px;
-}
-
-.info-text2 {
-    width: 30%;
-    padding-right: 60px;
-    padding-left: 25px;
 }
 
 p {
@@ -67,71 +18,4 @@ p {
 
 h2 {
     font-family: "cookie", "Franklin Gothic Medium";
-    font-size: 2em;
-    font-weight: 500;
-}
-
-@media screen and (max-width: 840px) {
-    .info-text1 {
-        width: 70%;
-        padding-left: 2%;
-        padding-right: 25px;
-    }
-
-    .info-text2 {
-        width: 30%;
-        padding-right: 2%;
-        padding-left: 25px;
-    }
-}
-
-@media screen and (max-width: 760px) {
-    .info-text1 {
-        width: 70%;
-        padding-left: 2%;
-        padding-right: 25px;
-    }
-
-    .info-text2 {
-        width: 30%;
-        padding-right: 2%;
-        padding-left: 25px;
-    }
-}
-
-@media screen and (max-width: 685px) {
-    .info {
-        display: flex;
-        flex-direction: column;
-        font-size: 1.2em;
-    }
-
-    .info-text1 {
-        width: 95%;
-    }
-
-    .info-text2 {
-        width: 95%;
-    }
-}
-
-@media screen and (max-width: 500px) {
-    .info {
-        display: flex;
-        flex-direction: column;
-        font-size: 1.2em;
-    }
-
-    .info-text1 {
-        width: 95%;
-    }
-
-    .info-text2 {
-        width: 95%;
-    }
-
-    main {
-        margin-left: 0;
-        margin-right: 0;
-    }
 }
