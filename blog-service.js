@@ -15,7 +15,7 @@ var sequelize = new Sequelize(
   }
 );
 
-var Post = sequelize.define("Post", {
+var Post = sequelize.define("Post", clearImmediate{
   body: Sequelize.TEXT,
   title: Sequelize.STRING,
   postDate: Sequelize.DATE,
@@ -103,7 +103,7 @@ function addPost(postData) {
   return new Promise((resolve, reject) => {
     postData.published = (postData.published) ? true : false;
 
-    for (const key in postData) {
+    for (const i in postData) {
         if (postData[i] === "") {
             postData[i] = null;
         }
@@ -158,6 +158,48 @@ function getCategories() {
   });
 }
 
+function addCategory(categoryData) {
+  return new Promise((resolve, reject) => {
+    for (const i in categoryData) {
+        if (categoryData[i] === "") {
+            categoryData[i] = null;
+        }
+    }
+
+    Category.create(categoryData).then((category) => {
+      resolve(category);
+    }).catch(() => {
+      reject("unable to create category");
+    })
+  });
+}
+
+function deleteCategoryById(id) {
+  return new Promise((resolve, reject) => {
+  Category.destroy({
+    where: { id: id,
+    },
+  }).then(() => {
+    resolve("Destroyed");
+  }).catch(() => {
+    reject("unable to delete category");
+  })
+  });
+}
+
+function deletePostById(id) {
+  return new Promise((resolve, reject) => {
+    Post.destroy({
+      where: {
+        id: id,
+      },
+    }).then(() => {
+    resolve("Destroyed");
+  }).catch(() => {
+    reject("unable to delete category");
+  })
+  });
+}
 
 module.exports = {
   initialize,

@@ -35,6 +35,7 @@ const {
 } = require("./blog-service.js");
 
 app.use(express.static("public"));
+app.use(express.urlencoded({extended: true}));
 
 cloudinary.config({
   cloud_name: "dsjmp50vm",
@@ -112,7 +113,12 @@ app.get("/posts", function (req, res) {
   if (req.query.category) {
     getPostsByCategory(req.query.category)
     .then((data) => {
-        res.render("posts", {posts: data})
+        if (data.length > 0){
+          res.render("posts", {posts: data})
+        }
+        else {
+          res.render("posts", { message: "no results" })
+        }
     })
     .catch(() => {
         res.render("posts", { message: "no results" })
@@ -120,7 +126,12 @@ app.get("/posts", function (req, res) {
   } else if (req.query.minDate){
     getPostsByMinDate(req.query.minDate)
     .then((data) => {
-        res.render("posts", { posts: data })
+        if (data.length > 0){
+          res.render("posts", {posts: data})
+        }
+        else {
+          res.render("posts", { message: "no results" })
+        }
     })
     .catch(() => {
         res.render("posts", { message: "no results" })
@@ -128,7 +139,12 @@ app.get("/posts", function (req, res) {
   } else {
     getAllPosts()
     .then((data) => {
-        res.render("posts", { posts: data })
+        if (data.length > 0){
+          res.render("posts", {posts: data})
+        }
+        else {
+          res.render("posts", { message: "no results" })
+        }
     })
     .catch(() => {
         res.render("posts", { message: "no results" })
@@ -192,15 +208,39 @@ app.get("/post/:value", (req, res) => {
     });
 });
 
+app.get("/addCategory.hbs", function (req, res) {
+  
+});
+
 // setup another route to listen on /categories
 app.get("/categories", function (req, res) {
   getCategories()
     .then((data) => {
-      res.render("categories", { categories: data });
+      if (data.length > 0) {
+        res.render("categories", { categories: data });
+      } else {
+        res.render("categories", { message: "no results" });
+      }
     })
     .catch(() => {
-      res.render("categories", { message: "nos results" });
+      res.render("categories", { message: "no results" });
     });
+});
+
+app.get("/categories/add", function (req, res) {
+  res.render("addCategory");
+});
+
+app.get("/categories/add", function (req, res) {
+       
+});
+
+app.get("/categories/delete/:id", function (req, res) {
+  
+});
+
+app.get("/categories/delete/:id", function (req, res) {
+  
 });
 
 app.get('/blog', async (req, res) => {
