@@ -186,7 +186,7 @@ app.post("/posts/add", upload.single("featureImage"), (req, res) => {
     upload(req).then((uploaded) => {
       req.body.featureImage = uploaded.url;
 
-      blog_service.addPost(req.body)
+      addPost(req.body)
       .then(() => {
         res.redirect("/posts");
       })
