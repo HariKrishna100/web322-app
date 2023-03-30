@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const { gte } = Sequelize.Op;
 
 var sequelize = new Sequelize(
   "qkfjqwjy",
@@ -44,11 +45,7 @@ function initialize() {
 
 function getAllPosts() {
   return new Promise((resolve, reject) => {
-    Post.findAll({
-      where: {
-        published: true,
-      },
-    })
+    Post.findAll()
       .then((data) => {
         resolve(data);
       })
@@ -63,10 +60,10 @@ function getPostsByCategory(category) {
     Post.findAll({
       where: {
         category: category,
-        published: true,
       },
     })
       .then((data) => {
+        console.log(category);
         resolve(data);
       })
       .catch(() => {
@@ -77,6 +74,7 @@ function getPostsByCategory(category) {
 
 function getPostsByMinDate(minDate) {
   return new Promise((resolve, reject) => {
+    const { gte } = Sequelize.Op;
     Post.findAll({
       where: {
         postDate: {

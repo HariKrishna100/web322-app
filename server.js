@@ -153,7 +153,13 @@ app.get("/posts", function (req, res) {
 });
 
 app.get("/posts/add", function (req, res) {
-  res.render("addPost");
+  getCategories()
+    .then((categories) => {
+      res.render("addPost", { categories: categories });
+    })
+    .catch(() => {
+      res.render("addPost", { categories: [] });
+    });
 });
 
 app.post("/posts/add", upload.single("featureImage"), (req, res) => {
@@ -304,7 +310,14 @@ app.get("/blog", async (req, res) => {
   }
 
   // render the "blog" view with all of the data (viewData)
-  res.render("blog", { data: viewData });
+  if (viewData.posts.length > 0) {
+    res.render("blog", { data: viewData });
+  } else {
+    res.render("blog", {
+      data: viewData,
+      message: "Please try another Post / Category",
+    });
+  }
 });
 
 app.get("/blog/:id", async (req, res) => {
