@@ -163,7 +163,6 @@ app.get("/posts/add", function (req, res) {
 });
 
 app.post("/posts/add", upload.single("featureImage"), (req, res) => {
-  if (req.file) {
     let streamUpload = (req) => {
       return new Promise((resolve, reject) => {
         let stream = cloudinary.uploader.upload_stream((error, result) => {
@@ -185,24 +184,13 @@ app.post("/posts/add", upload.single("featureImage"), (req, res) => {
     }
 
     upload(req).then((uploaded) => {
-      processPost(uploaded.url);
-    });
-  } else {
-    processPost("");
-  }
+      req.body.featureImage = uploaded.url;
 
-  function processPost(imageUrl) {
-    req.body.featureImage = imageUrl;
-
-    blogData
-      .addPost(req.body)
-      .then((post) => {
+      blog_service.addPost(req.body)
+      .then(() => {
         res.redirect("/posts");
       })
-      .catch((err) => {
-        res.status(500).send(err);
-      });
-  }
+    });
 });
 
 app.get("/post/:value", (req, res) => {
