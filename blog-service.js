@@ -15,7 +15,7 @@ var sequelize = new Sequelize(
   }
 );
 
-var Post = sequelize.define("Post", clearImmediate{
+const Post = sequelize.define("Post", {
   body: Sequelize.TEXT,
   title: Sequelize.STRING,
   postDate: Sequelize.DATE,
@@ -23,7 +23,7 @@ var Post = sequelize.define("Post", clearImmediate{
   published: Sequelize.BOOLEAN,
 });
 
-var Category = sequelize.define("Category", {
+const Category = sequelize.define("Category", {
   category: Sequelize.STRING,
 });
 
@@ -31,159 +31,182 @@ Post.belongsTo(Category, { foreignKey: "category" });
 
 function initialize() {
   return new Promise((resolve, reject) => {
-    sequelize.sync()
-    .then(() => {
-        resolve()
-    }).catch(()=>{
+    sequelize
+      .sync()
+      .then(() => {
+        resolve();
+      })
+      .catch(() => {
         reject("unable to sync the database");
-    })
+      });
   });
 }
 
 function getAllPosts() {
   return new Promise((resolve, reject) => {
     Post.findAll({
-        where: {
-            published: true,
-        },
-    }).then((data) => {
-        resolve(data);
-    }).catch(() => {
-        reject("no results returned");
+      where: {
+        published: true,
+      },
     })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch(() => {
+        reject("no results returned");
+      });
   });
 }
 
 function getPostsByCategory(category) {
   return new Promise((resolve, reject) => {
     Post.findAll({
-        where: {
-            category: category,
-            published: true,
-        },
-    }).then((data) => {
-        resolve(data);
-    }).catch(() => {
-        reject("no results returned");
+      where: {
+        category: category,
+        published: true,
+      },
     })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch(() => {
+        reject("no results returned");
+      });
   });
 }
 
 function getPostsByMinDate(minDate) {
   return new Promise((resolve, reject) => {
     Post.findAll({
-        where: {
-            postDate: {
-                [gte]: new Date(minDateStr),
-            },
+      where: {
+        postDate: {
+          [gte]: new Date(minDateStr),
         },
-    }).then((data) => {
-        resolve(data);
-    }).catch(() => {
-        reject("no results returned");
+      },
     })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch(() => {
+        reject("no results returned");
+      });
   });
 }
 
 function getPostById(id) {
   return new Promise((resolve, reject) => {
     Post.findAll({
-        where: {
-            id: id,
-        },
-    }).then((data) => {
-        resolve(data[0]);
-    }).catch(() => {
-        reject("no results returned");
+      where: {
+        id: id,
+      },
     })
+      .then((data) => {
+        resolve(data[0]);
+      })
+      .catch(() => {
+        reject("no results returned");
+      });
   });
 }
 
 function addPost(postData) {
   return new Promise((resolve, reject) => {
-    postData.published = (postData.published) ? true : false;
+    postData.published = postData.published ? true : false;
 
     for (const i in postData) {
-        if (postData[i] === "") {
-            postData[i] = null;
-        }
+      if (postData[i] === "") {
+        postData[i] = null;
+      }
     }
 
     postData.postDate = new Date();
 
-    Post.create(postData).then(() => {
-        resolve(data);
-    }).catch(() => {
+    Post.create(postData)
+      .then(() => {
+        resolve();
+      })
+      .catch(() => {
         reject("unable to create post");
-    })
+      });
   });
 }
 
 function getPublishedPosts() {
   return new Promise((resolve, reject) => {
     Post.findAll({
-        where: {
-            published: true,
-        }, 
-    }).then((data) => {
-        resolve(data)
-    }).catch(() => {
-        reject("no results returned");
+      where: {
+        published: true,
+      },
     })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch(() => {
+        reject("no results returned");
+      });
   });
 }
 
 function getPublishedPostsByCategory(category) {
   return new Promise((resolve, reject) => {
     Post.findAll({
-        where: {
-            category: category,
-            published: true,
-        },
-    }).then((data) => {
-        resolve(data);
-    }).catch(() => {
-        reject("no results returned");
+      where: {
+        category: category,
+        published: true,
+      },
     })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch(() => {
+        reject("no results returned");
+      });
   });
 }
 
 function getCategories() {
   return new Promise((resolve, reject) => {
-    Category.findAll().then((data) => {
-        resolve(data)
-    }).catch(() => {
+    Category.findAll()
+      .then((data) => {
+        resolve(data);
+      })
+      .catch(() => {
         reject("no results returned");
-    })
+      });
   });
 }
 
 function addCategory(categoryData) {
   return new Promise((resolve, reject) => {
     for (const i in categoryData) {
-        if (categoryData[i] === "") {
-            categoryData[i] = null;
-        }
+      if (categoryData[i] === "") {
+        categoryData[i] = null;
+      }
     }
 
-    Category.create(categoryData).then((category) => {
-      resolve(category);
-    }).catch(() => {
-      reject("unable to create category");
-    })
+    Category.create(categoryData)
+      .then((category) => {
+        resolve(category);
+      })
+      .catch(() => {
+        reject("unable to create category");
+      });
   });
 }
 
 function deleteCategoryById(id) {
   return new Promise((resolve, reject) => {
-  Category.destroy({
-    where: { id: id,
-    },
-  }).then(() => {
-    resolve("Destroyed");
-  }).catch(() => {
-    reject("unable to delete category");
-  })
+    Category.destroy({
+      where: { 
+        id: id, 
+      },
+    })
+      .then(() => {
+        resolve("Destroyed");
+      })
+      .catch(() => {
+        reject("unable to delete category");
+      });
   });
 }
 
@@ -193,11 +216,13 @@ function deletePostById(id) {
       where: {
         id: id,
       },
-    }).then(() => {
-    resolve("Destroyed");
-  }).catch(() => {
-    reject("unable to delete category");
-  })
+    })
+      .then(() => {
+        resolve("Destroyed");
+      })
+      .catch(() => {
+        reject("unable to delete post");
+      });
   });
 }
 
@@ -211,4 +236,7 @@ module.exports = {
   getPostsByCategory,
   getPostsByMinDate,
   getPublishedPostsByCategory,
+  addCategory,
+  deleteCategoryById,
+  deletePostById,
 };
