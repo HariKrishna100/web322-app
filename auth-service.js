@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { UPDATE } = require("sequelize/types/query-types");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -54,8 +55,24 @@ function checkUser(userData) {
        User.find({ userName: userData.userName })
        .exec()
        .then((users) => {
-            
+            if(users.length === 0) {
+                reject(`Unable to find user: ${user.userName}`);
+            } else {
+                (users[0].password != userData.password) ?
+                    reject(`Incorrect Password for user: ${userData.userName}`) :
+                    resolve(user[0]);
+
+                User.updateOne(
+                    { "userName": users[0].userName },
+                    { "$set": {"loginHistory": users[0].loginHistory}},
+                    { multi: false },
+                ).catch((err) => {
+                    reject(`There was an error verifying the user: ${err}`)
+                })
+            }
        })
+    }).catch((err) => {
+        reject(`Unable to find user: ${userData.userName}`);
     })
 }
 
