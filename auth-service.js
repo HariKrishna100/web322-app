@@ -3,15 +3,16 @@ const { UPDATE } = require("sequelize/types/query-types");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  userName: String,
-  password: String,
-  email: String,
-  loginHistory: [
-    {
-      dateTime: Date,
-      userAgent: String,
-    },
-  ],
+  "userName": {
+     type: String,
+     unique: true,
+  },
+  "password": String,
+  "email": String,
+  "loginHistory": [{
+      "dateTime": Date,
+      "userAgent": String,
+    }],
 });
 
 let User;
@@ -64,26 +65,19 @@ function checkUser(userData) {
 
                 User.updateOne(
                     { "userName": users[0].userName },
-                    { "$set": {"loginHistory": users[0].loginHistory}},
-                    { multi: false },
+                    { "$set": {"loginHistory": users[0].loginHistory}}
                 ).catch((err) => {
                     reject(`There was an error verifying the user: ${err}`)
                 })
             }
-       })
-    }).catch((err) => {
-        reject(`Unable to find user: ${userData.userName}`);
+       }).catch((err) => {
+          reject(`Unable to find user: ${userData.userName}`);
+        })
     })
 }
 
-function checkUser(userData) {
-    return new Promise((resolve, reject) => {
-        
-    })
-}
-
-function checkUser(userData) {
-    return new Promise((resolve, reject) => {
-        
-    })
+module.exports = {
+    initialize,
+    registerUser,
+    checkUser
 }
