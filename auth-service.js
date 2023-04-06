@@ -3,16 +3,16 @@ const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 
 const userSchema = new Schema({
-  userName: {
+  "userName": {
     type: String,
     unique: true,
   },
-  password: String,
-  email: String,
-  loginHistory: [
+  "password": String,
+  "email": String,
+  "loginHistory": [
     {
-      dateTime: Date,
-      userAgent: String,
+      "dateTime": Date,
+      "userAgent": String,
     },
   ],
 });
@@ -21,9 +21,7 @@ let User;
 
 function initialize() {
   return new Promise(function (resolve, reject) {
-    let db = mongoose.createConnection(
-      "mongodb+srv://Web322App:Kali!@Linux$@web322app.6022oww.mongodb.net/?retryWrites=true&w=majority"
-    );
+    let db = mongoose.createConnection("mongodb+srv://Web322App:Kali%21%40Linux$@web322app.6022oww.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true });
     db.on("error", (err) => {
       reject(err); // reject the promise with the provided error
     });
@@ -41,6 +39,7 @@ function registerUser(userData) {
     } else {
       Bcrypt.hash(userData.password, 10)
         .then((hash) => {
+            userData.password = hash;
             let newUser = new User(userData);
             newUser.save().then(() => {
               resolve();
