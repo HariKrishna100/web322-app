@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs');
 
 const userSchema = new Schema({
   "userName": {
@@ -37,7 +37,7 @@ function registerUser(userData) {
     if (userData.password != userData.password2) {
       reject("Incorrect Password");
     } else {
-      Bcrypt.hash(userData.password, 10)
+      bcrypt.hash(userData.password, 10)
         .then((hash) => {
             userData.password = hash;
             let newUser = new User(userData);
@@ -57,7 +57,7 @@ function registerUser(userData) {
           reject(`"There was an error encrypting the password`);
         });
     }
-  });
+  })
 }
 
 function checkUser(userData) {

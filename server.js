@@ -401,7 +401,7 @@ app.get("/register", (req, res) => {
 })
 
 app.post("/register", (req, res) => {
-  authData.RegisterUser(req.body)
+  authData.registerUser(req.body)
   .then(() => {
     res.render('register', { successMessage: 'user created'});
   }) .catch((err) => {
@@ -415,7 +415,7 @@ app.get("/logout", (req, res) =>{
 })
 
 app.get("/userHistory", ensureLogin, (req, res) => {
-  res.render(userHistory);
+  res.render("userHistory");
 })
 
 app.use((req, res) => {
